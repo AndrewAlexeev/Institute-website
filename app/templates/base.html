@@ -1,0 +1,15 @@
+<html>
+    <head>
+    	{%if title %}
+    	<title>{{tile}}</title>
+    	{% else %}
+      <title>Институт</title>
+    {% endif %}	
+    </head>
+    <body>
+        <div>Навигация: <a href="/index">Личный кабинет</a>
+        	<a href="/login">	Войти в систему</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

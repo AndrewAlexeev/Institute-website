@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Привет, {{ user.name }}!</h1>
+    {% for new in news %}
+    {% if new.author.gender == 'male' %}
+    <div><p>{{ new.author.name }} сказал: <b>{{ new.body }}</b></p></div>
+    {% else %}
+    <div><p>{{ new.author.name }} сказала: <b>{{ new.body }}</b></p></div>
+    {% endif %}
+
+    {% endfor %}
+{% endblock %}
