@@ -7,8 +7,15 @@
     {% endif %}	
     </head>
     <body>
-        <div>Навигация: <a href="/index">Личный кабинет</a>
-        	<a href="/login">	Войти в систему</a></div>
+        <div>
+    Institute:
+    <a href="{{ url_for('index') }}">Главная страница</a>
+    {% if current_user.is_anonymous %}
+    <a href="{{ url_for('login') }}">Войти в систему</a>
+    {% else %}
+    <a href="{{ url_for('logout') }}">Выйти</a>
+    {% endif %}
+</div>
         <hr>
         {% block content %}{% endblock %}
     </body>

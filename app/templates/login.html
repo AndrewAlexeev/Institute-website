@@ -2,6 +2,8 @@
 
 {% block content %}
     <h1>Войти в систему</h1>
+    <p>Новый пользователь? <a href="{{ url_for('register') }}">Зарегистрируйтесь!</a></p>
+
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
