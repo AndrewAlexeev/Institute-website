@@ -29,4 +29,11 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
 	name = StringField('Имя', validators=[DataRequired()])
 	about_me = TextAreaField('Обо мне:', validators=[Length(min=0, max=140)])
+	male = BooleanField('М')
+	female = BooleanField('Ж')
 	submit = SubmitField('Сохранить')
+
+class PostForm(FlaskForm):
+	post = TextAreaField('Напишите что-нибудь', validators=[
+		DataRequired(), Length(min=1, max=140)])
+	submit = SubmitField('Отправить')

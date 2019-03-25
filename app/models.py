@@ -44,11 +44,12 @@ class User(UserMixin,db.Model):
 		return self.followed.filter(
 			followers.c.followed_id == user.id).count() > 0
 	def followed_posts(self):
-		return New.query.join(
+		followed =  New.query.join(
 			followers, (followers.c.followed_id == New.user_id)).filter(
-				followers.c.follower_id == self.id).order_by(
+				followers.c.follower_id == self.id)
+		own = New.query.filter_by(user_id =self.id)
+		return followed.union(own).order_by(
 					New.timestamp.desc())
-
 
 class New(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

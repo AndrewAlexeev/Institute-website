@@ -2,12 +2,12 @@
 <table>
     <tr valign="top">
         {% if new.author.avatar %}
-        <td><img src="{{ new.author.avatar(36) }}"></td>
+        <td><img src="{{ new.author.avatar }}" width="100" height="111"></td>
         {% endif %}
          {% if new.author.gender == 'male' %}
         <td>{{ new.author.name }} сказал:<br>{{ new.body }}</td>
          {% else %}
-    <div><p>{{ new.author.name }} сказала: <b>{{ new.body }}</b></p></div>
+  <td>{{ new.author.name }} сказала: <b>{{ new.body }}</td>
     {% endif %}
     </tr>
 </table>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from app import app,db
 from flask import render_template,flash,redirect,url_for, request
-from app.forms import LoginForm,RegistrationForm,EditProfileForm
+from app.forms import LoginForm,RegistrationForm,EditProfileForm,PostForm
 from app.models import User,New
 from flask_login import logout_user
 from flask_login import current_user, login_user
@@ -9,12 +9,19 @@ from flask_login import login_required
 from werkzeug.urls import url_parse
 from datetime import datetime
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
+	form = PostForm()
+	if form.validate_on_submit():
+		new = New(body=form.post.data, author=current_user)
+		db.session.add(new)
+		db.session.commit()
+		flash('Ваше сообщение опубликовано!')
+		return redirect(url_for('index'))
 	news = current_user.followed_posts().all()
-	return render_template('index.html',title = 'Home',news=news)
+	return render_template('index.html',title = 'Home',news=news,form=form)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
@@ -23,7 +30,7 @@ def login():
 	if form.validate_on_submit():
 		user = User.query.filter_by(name=form.username.data).first()
 		if user is None or not user.check_password(form.password.data):
-			flash('Invalid username or password')
+			flash('Неправильное имя пользователя или пароль')
 			return redirect(url_for('login'))
 		login_user(user, remember=form.remember_me.data)
 		next_page = request.args.get('next')
@@ -60,6 +67,10 @@ def before_request():
 def edit_profile():
 	form = EditProfileForm()
 	if form.validate_on_submit():
+		if(form.male.data):
+			current_user.gender = 'male'
+		else:
+			current_user.gender = 'female'
 		current_user.name = form.name.data
 		current_user.about_me = form.about_me.data
 		db.session.commit()
